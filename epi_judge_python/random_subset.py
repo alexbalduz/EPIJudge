@@ -1,6 +1,6 @@
 import functools
 from typing import List
-
+import random
 from test_framework import generic_test
 from test_framework.random_sequence_checker import (
     binomial_coefficient, check_sequence_is_uniformly_random,
@@ -9,8 +9,11 @@ from test_framework.test_utils import enable_executor_hook
 
 
 def random_subset(n: int, k: int) -> List[int]:
-    # TODO - you fill in here.
-    return []
+    nums = list(range(n))
+    for i in range(k):
+        rand_idx = random.randrange(i, n)
+        nums[i], nums[rand_idx] = nums[rand_idx], nums[i]
+    return nums[:k]
 
 
 @enable_executor_hook
@@ -36,3 +39,10 @@ if __name__ == '__main__':
     exit(
         generic_test.generic_test_main('random_subset.py', 'random_subset.tsv',
                                        random_subset_wrapper))
+
+# def random_subset(n: int, k: int) -> List[int]:
+#     nums = list(range(n))
+#     for i in range(k):
+#         random_idx = random.randrange(i, n)
+#         nums[random_idx], nums[i] = nums[i], nums[random_idx]
+#     return nums[:k]
