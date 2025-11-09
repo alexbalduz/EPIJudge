@@ -5,11 +5,24 @@ from list_node import ListNode
 from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
+from is_list_cyclic import has_cycle
+from do_terminated_lists_overlap import overlapping_no_cycle_lists
 
 
 def overlapping_lists(l0: ListNode, l1: ListNode) -> Optional[ListNode]:
-    # TODO - you fill in here.
-    return None
+    root0, root1 = has_cycle(l0), has_cycle(l1)
+
+    if not root0 and not root1:
+        return overlapping_no_cycle_lists(l0, l1)
+    elif (not root0 and root1) or (root0 and not root1):
+        return None
+
+    temp = root1
+    while temp:
+        temp = temp.next
+        if temp is root0 or temp is root1:
+            break
+    return root1 if temp is root0 else None
 
 
 @enable_executor_hook
